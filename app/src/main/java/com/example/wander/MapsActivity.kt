@@ -13,8 +13,14 @@ import com.example.wander.databinding.ActivityMapsBinding
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private lateinit var mMap: GoogleMap
+    private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+
+
+    //MapsActivity.kt file instantiates the SupportMapFragment in the onCreate() method and
+    //uses the class's getMapAsync() to automatically initialize the maps system and the view.
+    //The activity that contains the SupportMapFragment must implement the OnMapReadyCallback interface
+    //and that interface's onMapReady() method. The onMapReady() method is called when the map is loaded.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +44,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+        map = googleMap
 
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 }

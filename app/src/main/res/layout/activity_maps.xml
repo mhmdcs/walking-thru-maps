@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--This layout file contains a single fragment that fills the entire screen.
+The SupportMapFragment class is a subclass of the Fragment class. A Support Map Fragment is the simplest way
+to place a map in an application. It’s a wrapper around a view of a map to automatically handle the necessary life cycle needs.
+You can include SupportMapFragment in a layout file using a <fragment> tag in any ViewGroup-->
+
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

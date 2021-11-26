@@ -1,4 +1,11 @@
 <resources>
+
+
+    <!--You use this configuration file to hold your API key. The template generates two google_maps_api.xml files:
+    one for debug and one for release. The file for the API key for the debug certificate is located in
+    src/debug/res/values. The file for the API key for the release certificate is located in
+     src/release/res/values. In this practical you only use the debug certificate.-->
+
     <!--
     TODO: Before you run your application, you need a Google Maps API key.
 
@@ -20,5 +27,5 @@
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
     -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">YOUR_KEY_HERE</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCXFcgevZDWf8lVkH-hpzyhXgLcXsgSlMw</string>
 </resources>
