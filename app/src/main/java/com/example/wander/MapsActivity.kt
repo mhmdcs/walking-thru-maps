@@ -45,13 +45,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    //onMapReady is called when the map is ready to be used and provides a non-null instance of GoogleMap
+    //this method will only be triggered when the user has installed GooglePlay Services
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        // Add a marker in your home and move the camera (the camera = the screen)
+        val latitude = 24.7810910
+        val longitude = 46.6223080
+        val homeLatLng = LatLng(latitude,longitude)
+        val zoom = 15f
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng,zoom))
+        map.addMarker(MarkerOptions().position(homeLatLng))
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
