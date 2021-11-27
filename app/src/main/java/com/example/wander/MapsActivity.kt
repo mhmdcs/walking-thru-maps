@@ -12,6 +12,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.wander.databinding.ActivityMapsBinding
+import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -59,6 +60,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng,zoom))
         map.addMarker(MarkerOptions().position(homeLatLng))
 
+        setOnMapLongClick(map)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -85,6 +87,31 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    //this is a method stub
+    //it takes a GoogleMap as an argument, and attaches a long click listener to the map object
+    private fun setOnMapLongClick(map: GoogleMap){
+
+        //this is a lambda, when "it" or -> appear, it is a lambda
+        map.setOnMapLongClickListener { latLong ->
+
+            //A snippet is additional text that is displayed below the title.
+            //In your case the snippet displays the latitude and longitude of a marker.
+            val snippet = String.format(
+                Locale.getDefault(),
+             //   getString(R.string.lat_long_snippet),
+                "Lat: %1$.5f, Long: %2$.5f",
+                latLong.latitude,
+                latLong.longitude
+            )
+
+            map.addMarker(MarkerOptions()
+                .position(latLong)
+                .title(getString(R.string.dropped_pin))
+                .snippet(snippet)
+            )
+        }
     }
 
 }
