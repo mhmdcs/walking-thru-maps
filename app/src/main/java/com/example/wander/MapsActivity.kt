@@ -11,11 +11,8 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.example.wander.databinding.ActivityMapsBinding
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.*
 import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -61,13 +58,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val latitude = 24.7810910
         val longitude = 46.6223080
         val homeLatLng = LatLng(latitude,longitude)
-        val zoom = 15f
+        val zoom = 18f
+        val overlayZoom = 100f //set width in meters for the desired overlay, in this case androidOverlay object
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng,zoom))
         map.addMarker(MarkerOptions()
             .position(homeLatLng)
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
         )
+        val androidOverlay = GroundOverlayOptions()
+            .image(BitmapDescriptorFactory.fromResource(R.drawable.android))
+            .position(homeLatLng,overlayZoom)
+
+        map.addGroundOverlay(androidOverlay)
 
         setOnMapLongClick(map)
         setPoiClick(map)
