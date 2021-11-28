@@ -1,7 +1,9 @@
 package com.example.wander
 
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 
@@ -12,9 +14,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.wander.databinding.ActivityMapsBinding
+import com.google.android.gms.maps.model.MapStyleOptions
 import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+
+    private val TAG = MapsActivity::class.java.simpleName
 
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapsBinding
@@ -62,6 +67,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         setOnMapLongClick(map)
         setPoiClick(map)
+        setMapStyle(map)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -128,6 +134,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         )
             poiMarker?.showInfoWindow()
         }
+    }
+
+    private fun setMapStyle(map: GoogleMap){
+
+    // Customize the styling of the base map using a JSON object defined
+    // in a raw resource file.
+    try {
+      val success = map.setMapStyle(
+          MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style)
+      )
+        //If the styling is unsuccessful, print a log that the parsing has failed.
+        if (!success){
+            Log.e(TAG, "Style parsing failed.")
+        }
+    }
+    //In the catch block if the file can't be loaded, the method throws a Resources.NotFoundException.
+    catch(e: Resources.NotFoundException) {
+        Log.e(TAG, "Can't find style. Error: $e")
+    }
     }
 
 }
