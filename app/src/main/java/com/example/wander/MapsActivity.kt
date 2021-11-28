@@ -61,6 +61,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         map.addMarker(MarkerOptions().position(homeLatLng))
 
         setOnMapLongClick(map)
+        setPoiClick(map)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -111,6 +112,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 .title(getString(R.string.dropped_pin))
                 .snippet(snippet)
             )
+        }
+    }
+
+    //method stub in MapsActivity called setPoiClick() that takes a GoogleMap as an argument.
+    //In the setPoiClick() method, set an OnPoiClickListener on the passed-in GoogleMap
+    private fun setPoiClick(map: GoogleMap){
+        //In the onPoiClick() method, place a marker at the POI location.
+        //Set the title to the name of the POI. Save the result to a variable called poiMarker.
+        map.setOnPoiClickListener { poi ->
+        val poiMarker = map.addMarker(
+            MarkerOptions()
+                .position(poi.latLng)
+                .title(poi.name)
+        )
+            poiMarker?.showInfoWindow()
         }
     }
 
