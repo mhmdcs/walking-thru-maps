@@ -14,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.wander.databinding.ActivityMapsBinding
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MapStyleOptions
 import java.util.*
 
@@ -63,7 +64,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val zoom = 15f
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng,zoom))
-        map.addMarker(MarkerOptions().position(homeLatLng))
+        map.addMarker(MarkerOptions()
+            .position(homeLatLng)
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+        )
 
         setOnMapLongClick(map)
         setPoiClick(map)
@@ -117,6 +121,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 .position(latLong)
                 .title(getString(R.string.dropped_pin))
                 .snippet(snippet)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
             )
         }
     }
@@ -131,6 +136,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             MarkerOptions()
                 .position(poi.latLng)
                 .title(poi.name)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+
         )
             poiMarker?.showInfoWindow()
         }
