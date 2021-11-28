@@ -1,23 +1,29 @@
 package com.example.wander
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.example.wander.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.example.wander.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.model.*
 import java.util.*
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private val TAG = MapsActivity::class.java.simpleName
+    private val REQUEST_LOCATION_PERMISSION = 1
 
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapsBinding
@@ -55,14 +61,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         map = googleMap
 
         // Add a marker in your home and move the camera (the camera = the screen)
-        val latitude = 24.7810910
-        val longitude = 46.6223080
+        val latitude = 24.779485
+        val longitude = 46.627675
         val homeLatLng = LatLng(latitude,longitude)
         val zoom = 18f
         val overlayZoom = 100f //set width in meters for the desired overlay, in this case androidOverlay object
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng,zoom))
-        map.addMarker(MarkerOptions()
+        map.addMarker(
+            MarkerOptions()
             .position(homeLatLng)
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
         )
@@ -75,6 +82,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         setOnMapLongClick(map)
         setPoiClick(map)
         setMapStyle(map)
+
+        enableMyLocation()
+    }
+
+    //Override the onRequestPermissionsResult() method.
+    //If the requestCode is equal to REQUEST_LOCATION_PERMISSION permission is granted,
+    //and if the grantResults array is non empty with PackageManager.PERMISSION_GRANTED
+    //in its first slot, call enableMyLocation():
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        //Check if location permissions are granted and if so enable the location data layer.
+        if(requestCode == REQUEST_LOCATION_PERMISSION){
+            if(grantResults.size > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)){
+                enableMyLocation()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -163,6 +190,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     catch(e: Resources.NotFoundException) {
         Log.e(TAG, "Can't find style. Error: $e")
     }
+    }
+
+
+    //To check if permissions are granted, create a method in the MapsActivity.kt called isPermissionGranted().
+    //In this method, check if the user has granted the permission.
+    //it returns true if the user granted the permission, and false if he didn't
+    private fun isPermissionGranted(): Boolean {
+        return ContextCompat
+            .checkSelfPermission(this,
+            android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+    //To enable location tracking in your app, create a method in the MapsActivity.kt
+    //called enableMyLocation() that takes no arguments and doesn't return anything.
+    //Check for the ACCESS_FINE_LOCATION permission. If the permission is granted,
+    //enable the location layer. Otherwise, re-request the permission:
+    @SuppressLint("MissingPermission")
+    private fun enableMyLocation(){
+        if(isPermissionGranted()){
+            map.setMyLocationEnabled(true)
+        }
+        else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_LOCATION_PERMISSION
+            )
+        }
     }
 
 }
